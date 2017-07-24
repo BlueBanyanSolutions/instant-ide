@@ -1,3 +1,2 @@
-#!usr/bin/env sh
 
-docker build instant-ide:0.1.0 .
+docker build -t instant-ide:0.1.0 .

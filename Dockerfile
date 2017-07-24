@@ -48,7 +48,7 @@
   RUN mkdir /root/.ssh
 
   # Create an instructive welcome message
-  RUN echo 'figlet Instant Blue Banyan IDE' >> /root/.bashrc
+  RUN echo 'figlet Blue Banyan IDE' >> /root/.bashrc
   RUN echo 'echo "\n\
   Build 2017.1\n\
   \n\
