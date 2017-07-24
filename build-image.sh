@@ -1,3 +1,3 @@
 #!usr/bin/env sh
 
-docker build BlueBanyanSolutions/instant-ide .
+docker build instant-ide:0.1.0 .
