@@ -15,4 +15,4 @@ MSG="\n\
 2. Booting instant-ide instance...\n\
 - SSH on port 2222\n"
 echo -e $MSG
-docker run -v ${SRC}:/src -v ${KEYS}:/root/.import -i -p 2222:2222 -p 8080:8080 -p 8181:8181 -p 8545:8545 -t BlueBanyanSolutions/instant-ide:latest
+docker run -v ${SRC}:/src -v ${KEYS}:/root/.import -i -p 2222:2222 -p 8080:8080 -p 8181:8181 -p 8545:8545 -t instant-ide:0.1.0
