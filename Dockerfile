@@ -1,9 +1,7 @@
-FROM ubuntu:xenial
-MAINTAINER firemound #Brendan Boyd
+  FROM ubuntu:xenial
+  MAINTAINER firemound #Brendan Boyd
 
   ENV DEBIAN_FRONTEND noninteractive
-
-  RUN echo "Modify the silly string to rebuild from here w/o the cache"
 
   RUN apt-get update
   RUN apt-get upgrade -q -y
@@ -32,19 +30,11 @@ MAINTAINER firemound #Brendan Boyd
   # Install tmux to gain split screen management and screen sharing capabilities
   RUN apt-get install -y tmux
 
-  # Get dotfiles
-  RUN git clone https://github.com/BlueBanyanSolutions/dotfiles.git ~/.dotfiles
-
-  # Pimp Emacs with Spacemacs and plugins
-  RUN sh ~/.dotfiles/scripts/install/pkg_emacs.sh
-  RUN git clone --recursive https://github.com/joaotavora/yasnippet ~/.emacs.d/plugins/yasnippet
-  RUN git clone https://github.com/firemound/ns-snippets.git ~/.emacs.d/private/snippets/js2-mode
-
   # Pimp VIM with Nerd Tree and other goodies using the Braintree setup
   WORKDIR /root
-  RUN git clone https://github.com/braintreeps/vim_dotfiles.git
-  WORKDIR /root/vim_dotfiles
-  RUN rake
+  #RUN git clone https://github.com/braintreeps/vim_dotfiles.git
+  #WORKDIR /root/vim_dotfiles
+  #RUN sh /root/vim_dotfiles/activate.sh
 
   # Make sure we are using 
   RUN echo 'set encoding=utf-8' >> /root/.vimrc
@@ -56,9 +46,6 @@ MAINTAINER firemound #Brendan Boyd
   RUN sed -i '/PasswordAuthentication yes/c\PasswordAuthentication no' /etc/ssh/sshd_config 
   RUN mkdir /var/run/sshd
   RUN mkdir /root/.ssh
-
-  # Install the SDF CLI
-  RUN sh ~/.dotfiles/scripts/install/pkg_sdfcli.sh
 
   # Create an instructive welcome message
   RUN echo 'figlet Instant Blue Banyan IDE' >> /root/.bashrc
@@ -75,7 +62,7 @@ MAINTAINER firemound #Brendan Boyd
   $ cd new-proj            # make project folder current directory\n\
   $ generator-sdf          # make a new Account Customization project\n\
   $ npm build              # lint your javascript and validate the project with sdf\n\
-  $ npm deploy             # deploy to the default account
+  $ npm deploy             # deploy to the default account\n\
   \n\
   TIPS\n\
   -- An SSH server makes it possible to share tmux session\n\
@@ -83,6 +70,18 @@ MAINTAINER firemound #Brendan Boyd
   \n\
   Enjoy! Ping me with feature requests via https://twitter.com/firemound\n\
   "' >> /root/.bashrc
+
+  # Get dotfiles
+  # WORKINGDIR /home
+  # RUN git clone https://github.com/BlueBanyanSolutions/dotfiles.git ~/.dotfiles
+
+  # Pimp Emacs with Spacemacs and plugins
+  # RUN sh ~/.dotfiles/scripts/install/pkg_emacs.sh
+  # RUN git clone --recursive https://github.com/joaotavora/yasnippet ~/.emacs.d/plugins/yasnippet
+  # RUN git clone https://github.com/firemound/ns-snippets.git ~/.emacs.d/private/snippets/js2-mode
+
+  # Install the SDF CLI
+  # RUN sh ~/.dotfiles/scripts/install/pkg_sdfcli.sh
 
   # Clean up APT when done.
   RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
