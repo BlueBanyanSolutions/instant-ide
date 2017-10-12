@@ -47,6 +47,24 @@
   RUN mkdir /var/run/sshd
   RUN mkdir /root/.ssh
 
+# Add Cloud9 for pair programming & IDE, in addition to tmux
+WORKDIR /opt
+RUN git clone git://github.com/c9/core.git cloud9
+WORKDIR /opt/cloud9
+RUN scripts/install-sdk.sh
+# patch for solidty syntax
+ADD patches/c9/node_modules/ace/lib/ace/ext/modelist.js /opt/cloud9/node_modules/ace/lib/ace/ext/modelist.js
+ADD patches/c9/node_modules/ace/lib/ace/mode/solidity.js /opt/cloud9/node_modules/ace/lib/ace/mode/solidity.js
+ADD patches/c9/node_modules/ace/lib/ace/mode/solidity_highlight_rules.js /opt/cloud9/node_modules/ace/lib/ace/mode/solidity_highlight_rules.js
+ADD patches/c9/node_modules/ace/lib/ace/snippets/solidity.js /opt/cloud9/node_modules/ace/lib/ace/snippets/solidity.js
+# make C9 server runnable (user needs to run $ c9.sh to launch platform)
+RUN mkdir /opt/cloud9/workspace
+WORKDIR /opt/cloud9/workspace
+RUN ln -s /src src
+RUN echo 'cd /opt/cloud9;node server.js --collab -p 8181  --listen 0.0.0.0 -a : -w /opt/cloud9/workspace' > /usr/local/bin/c9.sh
+RUN chmod ugo+x /usr/local/bin/c9.sh 
+
+
   # Create an instructive welcome message
   RUN echo 'figlet Blue Banyan IDE' >> /root/.bashrc
   RUN echo 'echo "\n\
