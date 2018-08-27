@@ -1,2 +1,3 @@
+#!/bin/bash
 
-docker build -t instant-ide:0.1.0 .
+sudo docker build -t instant-ide:latest .
